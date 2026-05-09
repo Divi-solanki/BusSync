@@ -4,7 +4,7 @@
 
 **IBM SkillsBuild AI Strategy & Business Intelligence Internship | AICTE | CSRBOX**  
 **Submitted by:** Divyanshi Solanki | `divisolanki54321@gmail.com`
-
+[Download PPT](https://docs.google.com/presentation/d/1x8JOc7gqusaZaD_AJvtIcVhYU78h62xf/edit?usp=sharing&ouid=112249638618746460537&rtpof=true&sd=true)
 ---
 
 ## 📌 Table of Contents
@@ -40,6 +40,8 @@ Every morning, college bus routes change — merges, stop modifications, driver 
 
 1. **Admin Panel** — Transport in-charge updates bus numbers, routes, and stops each morning via Google Sheets
 2. **AI Agent** — Automatically detects changes and notifies students via WhatsApp, and answers student queries via a chatbot
+
+
 
 ---
 
