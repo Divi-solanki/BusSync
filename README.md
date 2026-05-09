@@ -96,9 +96,10 @@ WhatsApp Message Received (Webhook)
 
 ```
 BusSync/
-├── BusSync_Concept_Note.docx       # Full project concept note
-├── BusSync_Presentation.pptx       # IBM SkillsBuild submission PPT
-└── BusSync_Lean_Canvas.pdf         # Lean Canvas
+├──docs
+│   ├──BusSync_Concept_Note.docx       # Full project concept note
+│   ├── BusSync_Presentation.pptx       # IBM SkillsBuild submission PPT
+│   └── BusSync_Lean_Canvas.pdf         # Lean Canvas
 │
 ├── n8n/
 │   ├── flow1_route_alerts.json         # n8n export: scheduled alert agent
