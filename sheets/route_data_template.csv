@@ -1,0 +1,11 @@
+Bus No,Route Name,Stops,Departure Time,Return Time,Status,Notes,Last Updated
+11,College - City Center,"Main Gate, MG Road, Palasia Square, City Center Bus Stand",07:45 AM,05:30 PM,Active,,2025-12-08
+12,College - Vijay Nagar,"Main Gate, Scheme 54, AB Road, Vijay Nagar Square",07:50 AM,05:30 PM,Active,,2025-12-08
+13,College - Rajwada,"Main Gate, Treasure Island, Rajwada, Old Bus Stand",08:00 AM,05:30 PM,Active,,2025-12-08
+14,College - Scheme 78,"Main Gate, LIG Square, Scheme 78 Part 2, Scheme 78 End",07:55 AM,05:30 PM,Active,,2025-12-08
+15,College - Bhawarkuan,"Main Gate, Geeta Bhawan, Bhawarkuan Square, Chhoti Gwaltoli",08:05 AM,05:30 PM,Active,,2025-12-08
+16,College - Nipania,"Main Gate, Orbit Mall, Nipania Crossing, Nipania End",08:10 AM,05:30 PM,Active,,2025-12-08
+17,College - Rau,"Main Gate, Tejaji Nagar, Rau Bypass, Rau Bus Stop",07:40 AM,05:30 PM,Active,,2025-12-08
+18,College - Sanwer Road,"Main Gate, Lasudia, Sanwer Road Industrial, Sanwer Crossing",07:35 AM,05:30 PM,Active,,2025-12-08
+19,College - Kanadiya,"Main Gate, Super Corridor, Kanadiya Road, Kanadiya Village",08:00 AM,05:30 PM,Cancelled,Bus under maintenance — students use Bus 110,2025-12-08
+20,College - Kanadiya (Merged),"Main Gate, Super Corridor, Kanadiya Road, Kanadiya Village",08:00 AM,05:30 PM,Merged with 109,Carrying passengers of both Bus 109 and Bus 110 today,2025-12-08
