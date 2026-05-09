@@ -1,0 +1,283 @@
+{
+  "name": "flow1_route_alerts",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "52872b43-bc19-4f63-86f3-4496dc5411ad",
+      "name": "Check Routes Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "14516909-341d-4440-8aa1-3182d4dae14c",
+      "name": "Fetch Route Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        368
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZBP21IevGNh992Yn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following route data and determine if there are any significant changes (new routes, cancelled routes, time changes, or status updates) compared to the previous check. Route data: {{ $json }}. If changes are detected, output a JSON object with \"hasChanges\": true and \"summary\": \"brief description of changes\". If no changes, output \"hasChanges\": false.",
+        "options": {
+          "systemMessage": "You are a route change detection assistant. Analyze route data and identify significant changes. Always respond with valid JSON containing hasChanges (boolean) and summary (string) fields."
+        }
+      },
+      "id": "24419637-fc95-48c0-88ce-1b3a201d6bae",
+      "name": "Check for Route Changes",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        544,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "24ae80d6-78cd-431c-b99a-d89448784ef9",
+      "name": "OpenAI Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiOutput = $input.first().json.output;\nlet parsed;\ntry {\n  parsed = JSON.parse(aiOutput);\n} catch (e) {\n  parsed = { hasChanges: false };\n}\nreturn [parsed];"
+      },
+      "id": "66e1be27-1b69-4912-bd64-872282c0dbf5",
+      "name": "Parse AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.hasChanges }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1f7e266-da17-4228-87bd-248dc4d94f7d",
+      "name": "Has Changes?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1008,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "alertMessage",
+              "value": "=🚌 *Bus Route Update*\n\n{{ $json.summary }}\n\nPlease check the latest schedule.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "adbaeca6-b4e8-4c9d-9cc5-080340636a4e",
+      "name": "Format Alert Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "<__PLACEHOLDER_VALUE__Your WhatsApp Business Phone Number ID__>",
+        "recipientPhoneNumber": "<__PLACEHOLDER_VALUE__Student phone number with country code (e.g., +1234567890)__>",
+        "textBody": "={{ $json.alertMessage }}",
+        "additionalFields": {}
+      },
+      "id": "5f5f3bab-6065-40bc-b21a-504c28fd2e71",
+      "name": "Send WhatsApp Alert",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        400
+      ],
+      "webhookId": "866173f5-12ad-435c-9a3d-e9d07ff5c74c"
+    },
+    {
+      "parameters": {
+        "content": "## Flow 1: Scheduled Route Change Alerts\nChecks Google Sheets every 15 minutes for route changes and sends WhatsApp alerts to students",
+        "height": 396,
+        "width": 1620,
+        "color": 2
+      },
+      "id": "fdd0d02d-ef7a-4475-b735-e5c3e2594405",
+      "name": "Sticky Note 91956daf",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        176
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Check Routes Schedule": {
+      "main": [
+        [
+          {
+            "node": "Fetch Route Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Route Data": {
+      "main": [
+        [
+          {
+            "node": "Check for Route Changes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Route Changes": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Check for Route Changes",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          {
+            "node": "Has Changes?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Changes?": {
+      "main": [
+        [
+          {
+            "node": "Format Alert Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Alert Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a1da1598-fc87-47b6-9829-ac9d3fbcef55",
+  "meta": {
+    "instanceId": "43c74370f38d312724bf139a082156128ec7d7f952d55559d9c4a09fbfd5647b"
+  },
+  "id": "yiW2qYA4FaWEsNYt",
+  "tags": []
+}
